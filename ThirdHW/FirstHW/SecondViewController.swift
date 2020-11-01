@@ -21,7 +21,7 @@ class SecondViewController: UIViewController {
     
     private let urlImage = URL(string: "https://www.sportclub.ru/static/img/user-default-image.png")
     private let sort = "1&sort=stars&order=desc"
-    private var response = "https://api.github.com/?q="
+    private var response = "https://api.github.com/search/repositories?q="
     
     override func viewDidLoad() {
         super.viewDidLoad()
