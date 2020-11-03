@@ -7,24 +7,28 @@
 
 import Foundation
 
-struct Repository: Decodable {
+struct RepositoryModel: Codable {
+    var totalCount: Int
+    var items: [Items]
     
-    let name: String
-    let login: String
-    let avatarURL: String
-    let description: String
-    
-    init? (json: [String: Any]) {
-        guard let items = json["items"] as? Dictionary<String, Any>,
-              let name = items["name"] as? String,
-              let owner = items["owner"] as? Dictionary<String, Any>,
-              let login = owner["login"] as? String,
-              let avatarURL = owner["avatar_url"] as? String,
-              let description = items["description"] as? String else { return nil }
-       
-        self.name = name
-        self.login = login
-        self.avatarURL = avatarURL
-        self.description = description
+    private enum CodingKeys: String, CodingKey {
+        case totalCount = "total_count"
+        case items
+    }
+}
+
+struct Items: Codable {
+    var name: String
+    var description: String?
+    var owner: Owner
+}
+
+struct Owner: Codable {
+    var login: String
+    var imageURL: String
+
+    private enum CodingKeys: String, CodingKey {
+        case imageURL = "avatar_url"
+        case login
     }
 }
