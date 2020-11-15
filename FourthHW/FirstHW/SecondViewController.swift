@@ -10,6 +10,7 @@ import Kingfisher
 
 class SecondViewController: UIViewController {
     
+    //    MARK: - IBOutlets
     @IBOutlet weak var userNameLabel: UILabel!
     
     @IBOutlet weak var avatarImageView: UIImageView!
@@ -19,15 +20,25 @@ class SecondViewController: UIViewController {
     
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
+    //    MARK: - Private Properties
     private let urlImage = URL(string: "https://www.sportclub.ru/static/img/user-default-image.png")
     private let sort = "1&sort=stars&order=desc"
     private var response = "https://api.github.com/search/repositories?q="
     
+    //    MARK: - Life Cicles Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
     }
     
+    //    MARK: - Private Methods
+    private func createUI() {
+        avatarImageView.kf.setImage(with: urlImage)
+        avatarImageView.layer.cornerRadius = 64
+        avatarImageView.contentMode = .scaleAspectFill
+    }
+    
+    // MARK: - IBActions
     @IBAction func searchButton(_ sender: Any) {
         guard let nameText = repoNameTextField.text else { return }
         guard let languageText = languageTextField.text else { return }
@@ -49,11 +60,5 @@ class SecondViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    private func createUI() {
-        avatarImageView.kf.setImage(with: urlImage)
-        avatarImageView.layer.cornerRadius = 64
-        avatarImageView.contentMode = .scaleAspectFill
     }
 }

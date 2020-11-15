@@ -8,10 +8,12 @@
 import UIKit
 import Kingfisher
 
+// MARK: - Puplic Properties
 let identifier = "CustomCell"
 
 class CustomTableViewCell: UITableViewCell {
     
+    //    MARK: - Private Properties
     private let sizeImage: CGFloat = 50
     
     private let labelName: UILabel = {
@@ -46,6 +48,7 @@ class CustomTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    //    MARK: - Initilizers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureUI()
@@ -55,6 +58,7 @@ class CustomTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //    MARK: - Puplic Methods
     func configureCell(_ item: Items) {
         labelName.text = item.name
         loginLabel.text = item.owner.login
@@ -64,11 +68,12 @@ class CustomTableViewCell: UITableViewCell {
         avatarImageView.kf.setImage(with: url)
     }
     
+    //    MARK: - Private Methods
     private func configureUI() {
-        addSubview(labelName)
-        addSubview(avatarImageView)
-        addSubview(loginLabel)
-        addSubview(descriptionLabel)
+        let UIElemnts = [labelName, avatarImageView, loginLabel, descriptionLabel]
+        UIElemnts.forEach { (element) in
+            addSubview(element)
+        }
         
         let constraints = [labelName.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
                            labelName.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
