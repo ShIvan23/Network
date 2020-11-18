@@ -23,6 +23,8 @@
 		2C765F9A253CC74E0056429A /* FirstHWUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C765F99253CC74E0056429A /* FirstHWUITests.swift */; };
 		2C9B9699255DB701007C4771 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B9698255DB701007C4771 /* WebViewController.swift */; };
 		2CDD8DF02551C48000CDF0A4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8DEF2551C48000CDF0A4 /* CustomTableViewCell.swift */; };
+		2CE746472561AEEE00CBA522 /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE746462561AEEE00CBA522 /* AuthorizationManager.swift */; };
+		2CEB85EE2565A4DC00534EEF /* AuthorizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB85ED2565A4DC00534EEF /* AuthorizationModel.swift */; };
 		EE850D1A0228AAB376E0132A /* Pods_FirstHW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B2ACCD91F77661B56D456B2 /* Pods_FirstHW.framework */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +67,8 @@
 		2C765F9B253CC74E0056429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C9B9698255DB701007C4771 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2CDD8DEF2551C48000CDF0A4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		2CE746462561AEEE00CBA522 /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
+		2CEB85ED2565A4DC00534EEF /* AuthorizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationModel.swift; sourceTree = "<group>"; };
 		3E606C1BD9855E25B051F34B /* Pods-FirstHW-FirstHWUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstHW-FirstHWUITests.debug.xcconfig"; path = "Target Support Files/Pods-FirstHW-FirstHWUITests/Pods-FirstHW-FirstHWUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DF294692091652B39D8404F /* Pods-FirstHWTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstHWTests.release.xcconfig"; path = "Target Support Files/Pods-FirstHWTests/Pods-FirstHWTests.release.xcconfig"; sourceTree = "<group>"; };
 		6B2ACCD91F77661B56D456B2 /* Pods_FirstHW.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirstHW.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,7 +161,9 @@
 				2C9B9698255DB701007C4771 /* WebViewController.swift */,
 				2C15B870254F00B9000A57F9 /* Table View */,
 				2C03BFD42549DE6A002EDA24 /* NetworkManager.swift */,
+				2CE746462561AEEE00CBA522 /* AuthorizationManager.swift */,
 				2C15B868254ED080000A57F9 /* RepositoriesModel.swift */,
+				2CEB85ED2565A4DC00534EEF /* AuthorizationModel.swift */,
 				2C765F7D253CC7490056429A /* Main.storyboard */,
 				2C765F80253CC74E0056429A /* Assets.xcassets */,
 				2C765F82253CC74E0056429A /* LaunchScreen.storyboard */,
@@ -435,10 +441,12 @@
 				2C03BFD02549DCE7002EDA24 /* SecondViewController.swift in Sources */,
 				2C9B9699255DB701007C4771 /* WebViewController.swift in Sources */,
 				2C765F7C253CC7490056429A /* ViewController.swift in Sources */,
+				2CEB85EE2565A4DC00534EEF /* AuthorizationModel.swift in Sources */,
 				2CDD8DF02551C48000CDF0A4 /* CustomTableViewCell.swift in Sources */,
 				2C15B869254ED080000A57F9 /* RepositoriesModel.swift in Sources */,
 				2C15B861254EC65D000A57F9 /* SearchTableViewController.swift in Sources */,
 				2C03BFD52549DE6A002EDA24 /* NetworkManager.swift in Sources */,
+				2CE746472561AEEE00CBA522 /* AuthorizationManager.swift in Sources */,
 				2C765F78253CC7490056429A /* AppDelegate.swift in Sources */,
 				2C765F7A253CC7490056429A /* SceneDelegate.swift in Sources */,
 			);
