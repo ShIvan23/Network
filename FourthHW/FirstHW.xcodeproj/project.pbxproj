@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1ACCBAA039D58A214BA7D8CF /* Pods_FirstHW_FirstHWUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEE71ADDCB12155F36543A9 /* Pods_FirstHW_FirstHWUITests.framework */; };
 		23DD20DBD3528C66720C1C2F /* Pods_FirstHWTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B070A4C78FE26670CCD1EC15 /* Pods_FirstHWTests.framework */; };
-		2C03BFD02549DCE7002EDA24 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C03BFCF2549DCE7002EDA24 /* SecondViewController.swift */; };
 		2C03BFD52549DE6A002EDA24 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C03BFD42549DE6A002EDA24 /* NetworkManager.swift */; };
 		2C15B861254EC65D000A57F9 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C15B860254EC65D000A57F9 /* SearchTableViewController.swift */; };
 		2C15B869254ED080000A57F9 /* RepositoriesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C15B868254ED080000A57F9 /* RepositoriesModel.swift */; };
@@ -21,7 +20,11 @@
 		2C765F84253CC74E0056429A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C765F82253CC74E0056429A /* LaunchScreen.storyboard */; };
 		2C765F8F253CC74E0056429A /* FirstHWTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C765F8E253CC74E0056429A /* FirstHWTests.swift */; };
 		2C765F9A253CC74E0056429A /* FirstHWUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C765F99253CC74E0056429A /* FirstHWUITests.swift */; };
+		2C9B9699255DB701007C4771 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B9698255DB701007C4771 /* WebViewController.swift */; };
 		2CDD8DF02551C48000CDF0A4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8DEF2551C48000CDF0A4 /* CustomTableViewCell.swift */; };
+		2CE746472561AEEE00CBA522 /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE746462561AEEE00CBA522 /* AuthorizationManager.swift */; };
+		2CEB85EE2565A4DC00534EEF /* AuthorizationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB85ED2565A4DC00534EEF /* AuthorizationModel.swift */; };
+		2CEB85F3256994C600534EEF /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB85F2256994C600534EEF /* SearchViewController.swift */; };
 		EE850D1A0228AAB376E0132A /* Pods_FirstHW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B2ACCD91F77661B56D456B2 /* Pods_FirstHW.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +47,6 @@
 
 /* Begin PBXFileReference section */
 		168F489F1317B6B3ADC7EAE8 /* Pods-FirstHW.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstHW.release.xcconfig"; path = "Target Support Files/Pods-FirstHW/Pods-FirstHW.release.xcconfig"; sourceTree = "<group>"; };
-		2C03BFCF2549DCE7002EDA24 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		2C03BFD42549DE6A002EDA24 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		2C15B860254EC65D000A57F9 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		2C15B868254ED080000A57F9 /* RepositoriesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoriesModel.swift; sourceTree = "<group>"; };
@@ -62,7 +64,11 @@
 		2C765F95253CC74E0056429A /* FirstHWUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FirstHWUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C765F99253CC74E0056429A /* FirstHWUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstHWUITests.swift; sourceTree = "<group>"; };
 		2C765F9B253CC74E0056429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C9B9698255DB701007C4771 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2CDD8DEF2551C48000CDF0A4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		2CE746462561AEEE00CBA522 /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
+		2CEB85ED2565A4DC00534EEF /* AuthorizationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationModel.swift; sourceTree = "<group>"; };
+		2CEB85F2256994C600534EEF /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3E606C1BD9855E25B051F34B /* Pods-FirstHW-FirstHWUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstHW-FirstHWUITests.debug.xcconfig"; path = "Target Support Files/Pods-FirstHW-FirstHWUITests/Pods-FirstHW-FirstHWUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DF294692091652B39D8404F /* Pods-FirstHWTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FirstHWTests.release.xcconfig"; path = "Target Support Files/Pods-FirstHWTests/Pods-FirstHWTests.release.xcconfig"; sourceTree = "<group>"; };
 		6B2ACCD91F77661B56D456B2 /* Pods_FirstHW.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FirstHW.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,10 +157,13 @@
 				2C765F77253CC7490056429A /* AppDelegate.swift */,
 				2C765F79253CC7490056429A /* SceneDelegate.swift */,
 				2C765F7B253CC7490056429A /* ViewController.swift */,
-				2C03BFCF2549DCE7002EDA24 /* SecondViewController.swift */,
+				2CEB85F2256994C600534EEF /* SearchViewController.swift */,
+				2C9B9698255DB701007C4771 /* WebViewController.swift */,
 				2C15B870254F00B9000A57F9 /* Table View */,
 				2C03BFD42549DE6A002EDA24 /* NetworkManager.swift */,
+				2CE746462561AEEE00CBA522 /* AuthorizationManager.swift */,
 				2C15B868254ED080000A57F9 /* RepositoriesModel.swift */,
+				2CEB85ED2565A4DC00534EEF /* AuthorizationModel.swift */,
 				2C765F7D253CC7490056429A /* Main.storyboard */,
 				2C765F80253CC74E0056429A /* Assets.xcassets */,
 				2C765F82253CC74E0056429A /* LaunchScreen.storyboard */,
@@ -429,12 +438,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C03BFD02549DCE7002EDA24 /* SecondViewController.swift in Sources */,
+				2C9B9699255DB701007C4771 /* WebViewController.swift in Sources */,
 				2C765F7C253CC7490056429A /* ViewController.swift in Sources */,
+				2CEB85EE2565A4DC00534EEF /* AuthorizationModel.swift in Sources */,
 				2CDD8DF02551C48000CDF0A4 /* CustomTableViewCell.swift in Sources */,
 				2C15B869254ED080000A57F9 /* RepositoriesModel.swift in Sources */,
+				2CEB85F3256994C600534EEF /* SearchViewController.swift in Sources */,
 				2C15B861254EC65D000A57F9 /* SearchTableViewController.swift in Sources */,
 				2C03BFD52549DE6A002EDA24 /* NetworkManager.swift in Sources */,
+				2CE746472561AEEE00CBA522 /* AuthorizationManager.swift in Sources */,
 				2C765F78253CC7490056429A /* AppDelegate.swift in Sources */,
 				2C765F7A253CC7490056429A /* SceneDelegate.swift in Sources */,
 			);

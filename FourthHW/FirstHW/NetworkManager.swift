@@ -9,8 +9,10 @@ import Foundation
 
 class NetworkManager {
     
+//    MARK: - Static Methods
     static func searchRepositoryWithoutSort(urlResponse: String, repoName: String, language: String, completion: @escaping (_ model: RepositoryModel) -> ()) {
         let urlForSearch = urlResponse + repoName + "+language:" + language
+        print(urlForSearch)
         guard let url = URL(string: urlForSearch) else { return }
         let session = URLSession.shared
         session.dataTask(with: url) { (data, response, error) in
