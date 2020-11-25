@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     //    MARK: - Private Properties
     private let url = URL(string: "https://pngimg.com/uploads/github/github_PNG40.png")
     private let authorization: AuthorizationProtocol = AuthorizationManger()
+    private let keychain: KeychainProtocol = KeychainManager()
     
     //    MARK: - Life Cycles Methods
     override func viewDidLoad() {
@@ -37,8 +38,19 @@ class ViewController: UIViewController {
     }
     
     private func createRequest() {
-        guard let userName = userNameTextField.text else { return }
-        guard let password = passwordTextField.text else { return }
+        guard let userName = userNameTextField.text,
+        let password = passwordTextField.text,
+        !userName.isEmpty, !password.isEmpty else {
+            print("not all text fields entered")
+            return
+        }
+        
+        let result = keychain.savePassword(password: password, userName: userName)
+        
+        if result {
+            print("password saved")
+        }
+        
         authorization.parseJSON(userName: userName, password: password, completionHandler: { [weak self] (user) in
             DispatchQueue.main.async {
                 let vc = SearchViewController()
