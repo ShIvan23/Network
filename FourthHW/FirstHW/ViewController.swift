@@ -39,7 +39,7 @@ class ViewController: UIViewController {
     private func createRequest() {
         guard let userName = userNameTextField.text else { return }
         guard let password = passwordTextField.text else { return }
-        authorization.parseJSON(userName: userName, password: password, completionHandler: { [weak self] (user) in
+        authorization.singIn(with: userName, and: password, completionHandler: { [weak self] (user) in
             DispatchQueue.main.async {
                 let vc = SearchViewController()
                 vc.userName = user?.login ?? ""

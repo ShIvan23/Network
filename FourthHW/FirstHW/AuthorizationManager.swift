@@ -8,9 +8,7 @@
 import Foundation
 
 protocol AuthorizationProtocol {
-    func createURL(_ userName: String, _ password: String) -> URLRequest?
-    func dataTask(_ userName: String, _ password: String, completionHandler: @escaping (_ data: Data?, _ error: Error?) -> Void)
-    func parseJSON(userName: String, password: String, completionHandler: @escaping (_ model: LoginUser?) -> Void)
+    func singIn(with userName: String, and password: String, completionHandler: @escaping (_ model: LoginUser?) -> Void)
 }
 
 class AuthorizationManger: AuthorizationProtocol {
@@ -18,7 +16,7 @@ class AuthorizationManger: AuthorizationProtocol {
     private let url = "https://api.github.com/user"
     private let keyForHeader = "Authorization"
     
-    func createURL(_ userName: String, _ password: String) -> URLRequest? {
+    private func createURL(_ userName: String, _ password: String) -> URLRequest? {
         let userNameAndPassword = userName + ":" + password
         guard let string64 = userNameAndPassword.data(using: .utf8)?.base64EncodedString() else { return nil }
         let header = [keyForHeader: "Basic \(string64)"]
@@ -28,7 +26,7 @@ class AuthorizationManger: AuthorizationProtocol {
         return request
     }
     
-    func dataTask(_ userName: String, _ password: String, completionHandler: @escaping (Data?, Error?) -> Void) {
+    private func dataTask(_ userName: String, _ password: String, completionHandler: @escaping (Data?, Error?) -> Void) {
         guard let request = createURL(userName, password) else { return }
         
         let dataTask = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -49,7 +47,7 @@ class AuthorizationManger: AuthorizationProtocol {
         dataTask.resume()
     }
     
-    func parseJSON(userName: String, password: String, completionHandler: @escaping (LoginUser?) -> Void) {
+    func singIn(with userName: String, and password: String, completionHandler: @escaping (LoginUser?) -> Void) {
         dataTask(userName, password) { (data, error) in
             if error != nil {
                 completionHandler(nil)
