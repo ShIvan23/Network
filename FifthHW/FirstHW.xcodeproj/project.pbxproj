@@ -21,6 +21,7 @@
 		2C765F8F253CC74E0056429A /* FirstHWTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C765F8E253CC74E0056429A /* FirstHWTests.swift */; };
 		2C765F9A253CC74E0056429A /* FirstHWUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C765F99253CC74E0056429A /* FirstHWUITests.swift */; };
 		2C9B9699255DB701007C4771 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B9698255DB701007C4771 /* WebViewController.swift */; };
+		2C9E51192572CD8100F10A8A /* BiometricsAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E51182572CD8100F10A8A /* BiometricsAuthentication.swift */; };
 		2CDD8DF02551C48000CDF0A4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8DEF2551C48000CDF0A4 /* CustomTableViewCell.swift */; };
 		2CE746472561AEEE00CBA522 /* AuthorizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE746462561AEEE00CBA522 /* AuthorizationManager.swift */; };
 		2CE89822256BFD1100F08F4B /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE89821256BFD1100F08F4B /* KeychainManager.swift */; };
@@ -66,6 +67,7 @@
 		2C765F99253CC74E0056429A /* FirstHWUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstHWUITests.swift; sourceTree = "<group>"; };
 		2C765F9B253CC74E0056429A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C9B9698255DB701007C4771 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		2C9E51182572CD8100F10A8A /* BiometricsAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricsAuthentication.swift; sourceTree = "<group>"; };
 		2CDD8DEF2551C48000CDF0A4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		2CE746462561AEEE00CBA522 /* AuthorizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationManager.swift; sourceTree = "<group>"; };
 		2CE89821256BFD1100F08F4B /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				2CE89818256BF18F00F08F4B /* Network */,
 				2CE89819256BF1AA00F08F4B /* Models */,
 				2CE89821256BFD1100F08F4B /* KeychainManager.swift */,
+				2C9E51182572CD8100F10A8A /* BiometricsAuthentication.swift */,
 				2C765F7D253CC7490056429A /* Main.storyboard */,
 				2C765F80253CC74E0056429A /* Assets.xcassets */,
 				2C765F82253CC74E0056429A /* LaunchScreen.storyboard */,
@@ -470,6 +473,7 @@
 				2CEB85EE2565A4DC00534EEF /* AuthorizationModel.swift in Sources */,
 				2CDD8DF02551C48000CDF0A4 /* CustomTableViewCell.swift in Sources */,
 				2C15B869254ED080000A57F9 /* RepositoriesModel.swift in Sources */,
+				2C9E51192572CD8100F10A8A /* BiometricsAuthentication.swift in Sources */,
 				2CEB85F3256994C600534EEF /* SearchViewController.swift in Sources */,
 				2C15B861254EC65D000A57F9 /* SearchTableViewController.swift in Sources */,
 				2CE89822256BFD1100F08F4B /* KeychainManager.swift in Sources */,

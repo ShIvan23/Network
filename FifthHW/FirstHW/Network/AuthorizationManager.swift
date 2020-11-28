@@ -10,7 +10,7 @@ import Foundation
 protocol AuthorizationProtocol {
     func createURL(_ userName: String, _ password: String) -> URLRequest?
     func dataTask(_ userName: String, _ password: String, completionHandler: @escaping (_ data: Data?, _ error: Error?) -> Void)
-    func parseJSON(userName: String, password: String, completionHandler: @escaping (_ model: LoginUser?) -> Void)
+    func singIn(userName: String, password: String, completionHandler: @escaping (_ model: LoginUser?) -> Void)
 }
 
 class AuthorizationManger: AuthorizationProtocol {
@@ -49,7 +49,7 @@ class AuthorizationManger: AuthorizationProtocol {
         dataTask.resume()
     }
     
-    func parseJSON(userName: String, password: String, completionHandler: @escaping (LoginUser?) -> Void) {
+    func singIn(userName: String, password: String, completionHandler: @escaping (LoginUser?) -> Void) {
         dataTask(userName, password) { (data, error) in
             if error != nil {
                 completionHandler(nil)

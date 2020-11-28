@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import LocalAuthentication
 
 class ViewController: UIViewController {
     
@@ -20,16 +21,19 @@ class ViewController: UIViewController {
     private let url = URL(string: "https://pngimg.com/uploads/github/github_PNG40.png")
     private let authorization: AuthorizationProtocol = AuthorizationManger()
     private let keychain: KeychainProtocol = KeychainManager()
+    private let biometrics: BiometricsProtocol = BiometricsAuthentication()
     
     //    MARK: - Life Cycles Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
+        readKeychain()
     }
     
     //    MARK: - IBActions
     @IBAction func loginButton(_ sender: Any) {
-        createRequest()
+        savePassword()
+        singIn()
     }
     
     //    MARK: - Private Methods
@@ -37,21 +41,36 @@ class ViewController: UIViewController {
         imageView.kf.setImage(with: url)
     }
     
-    private func createRequest() {
+    private func savePassword() {
         guard let userName = userNameTextField.text,
-        let password = passwordTextField.text,
-        !userName.isEmpty, !password.isEmpty else {
+              let password = passwordTextField.text,
+              !userName.isEmpty, !password.isEmpty else {
             print("not all text fields entered")
             return
         }
         
         let result = keychain.savePassword(password: password, userName: userName)
         
-        if result {
-            print("password saved")
+        if result, let savedPassword = keychain.readPassword(userName: userName) {
+            print("Password saved: \(savedPassword)")
+        } else {
+            print("Can't save password")
+        }
+    }
+    
+    private func singIn() {
+        guard let userName = userNameTextField.text,
+              let password = passwordTextField.text,
+              !userName.isEmpty, !password.isEmpty else {
+            print("not all text fields entered")
+            return
         }
         
-        authorization.parseJSON(userName: userName, password: password, completionHandler: { [weak self] (user) in
+        authorization(userName: userName, password: password)
+    }
+    
+    private func authorization(userName: String, password: String) {
+        authorization.singIn(userName: userName, password: password, completionHandler: { [weak self] (user) in
             DispatchQueue.main.async {
                 let vc = SearchViewController()
                 vc.userName = user?.login ?? ""
@@ -59,5 +78,16 @@ class ViewController: UIViewController {
                 self?.navigationController?.pushViewController(vc, animated: true)
             }
         })
+    }
+    
+    private func readKeychain() {
+        let passwordItems = keychain.readAllItems()
+        print(passwordItems ?? [:])
+        
+        if passwordItems != nil {
+            biometrics.biometricsAuthentication(passwordItems: passwordItems!) { [unowned self] (userName, password) in
+                self.authorization(userName: userName, password: password)
+            }
+        }
     }
 }
