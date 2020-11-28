@@ -56,7 +56,7 @@ class SearchViewController: UIViewController {
     private let languageTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "languagee"
+        textField.placeholder = "language"
         textField.borderStyle = .roundedRect
         return textField
     }()
