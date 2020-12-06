@@ -21,7 +21,7 @@ class SecondViewController: UIViewController {
     
     private let urlImage = URL(string: "https://www.sportclub.ru/static/img/user-default-image.png")
     private let sort = "1&sort=stars&order=desc"
-    private var response = "https://api.github.com/?q="
+    private var response = "https://api.github.com/search/repositories?q="
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,14 +33,20 @@ class SecondViewController: UIViewController {
         guard let languageText = languageTextField.text else { return }
         
         if segmentControl.selectedSegmentIndex == 0 {
-            NetworkManager.searchRepositoryWithoutSort(urlResponse: response, repoName: nameText, language: languageText) { (response, data) in
-                print(response)
-                print(data)
+            NetworkManager.searchRepositoryWithoutSort(urlResponse: response, repoName: nameText, language: languageText) { [weak self] (json) in
+                
+                DispatchQueue.main.async {
+                    let tableVC = SearchTableViewController(json: json)
+                    self?.navigationController?.pushViewController(tableVC, animated: true)
+                }
             }
         } else {
-            NetworkManager.searchRepositoryWithSort(urlResponse: response, repoName: nameText, language: languageText, sort: sort) { (response, data) in
-                print(response)
-                print(data)
+            NetworkManager.searchRepositoryWithSort(urlResponse: response, repoName: nameText, language: languageText, sort: sort) { [weak self] (json) in
+                
+                DispatchQueue.main.async {
+                    let tableVC = SearchTableViewController(json: json)
+                    self?.navigationController?.pushViewController(tableVC, animated: true)
+                }
             }
         }
     }
@@ -50,5 +56,4 @@ class SecondViewController: UIViewController {
         avatarImageView.layer.cornerRadius = 64
         avatarImageView.contentMode = .scaleAspectFill
     }
-    
 }

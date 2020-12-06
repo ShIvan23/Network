@@ -188,6 +188,25 @@
             </objects>
             <point key="canvasLocation" x="1290" y="785"/>
         </scene>
+        <!--Search Table View Controller-->
+        <scene sceneID="he8-sn-QKB">
+            <objects>
+                <tableViewController id="vr6-Ei-NGD" customClass="SearchTableViewController" customModule="FirstHW" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="163" sectionHeaderHeight="28" sectionFooterHeight="28" id="FOk-FF-WBm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="vr6-Ei-NGD" id="eAL-8b-u59"/>
+                            <outlet property="delegate" destination="vr6-Ei-NGD" id="4VN-e0-rIb"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="YbJ-pJ-8r0"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mmG-wl-pTd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2100" y="784.82142857142856"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Q0j-BM-22Q">
             <objects>
