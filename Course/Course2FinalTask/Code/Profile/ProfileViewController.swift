@@ -10,18 +10,20 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    //    MARK:- Properties
+    //    MARK:- IB Oulets
     @IBOutlet weak var collectionView: UICollectionView!
     
-//    private let userClass = UserClass()
-//    private let postClass = PostClass()
+    //    MARK: - Public Properties
+    var user: User?
+    
+    //    MARK:- Pravate Properties
     private lazy var block = BlockViewController(view: (tabBarController?.view)!)
     private lazy var alert = AlertViewController(view: self)
-//    var user: User?
-//    private var usersFollowingUser: [User]?
-//    private var usersFollowedByUser: [User]?
-//    private var postsOfCurrentUser: [Post]?
+    private var postsOfCurrentUser: [Post]?
+    private let apiManger = APIInstagramManager()
+    private var appDelegate = AppDelegate.shared
     
+//    MARK: - Life Cycles Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +33,8 @@ class ProfileViewController: UIViewController {
         collectionView.register(ProfileHeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: identifierHeader)
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        
     }
     
     //    Обновляет массив постов при публикации новой фотографии
@@ -40,48 +44,76 @@ class ProfileViewController: UIViewController {
         createPostsArray()
     }
     
-    //    MARK:- Methods
+    //    MARK: - Private Methods
     
     //    Создает текущего пользователя и массив его постов
     private func createCurrentUserAndPosts() {
         
         //        Для создания профиля текущего пользователя
-//        if self.user == nil {
-//            block.startAnimating()
-//            self.userClass.currentUser(queue: .global()) { (user) in
-//                guard user != nil else { return }
-//                self.user = user
-//                DispatchQueue.main.async {
-//                    self.navigationItem.title = self.user?.username
-//                    self.createPostsArray()
-//                }
-//            }
+        if self.user == nil {
+            block.startAnimating()
+            self.apiManger.currentUser(token: APIInstagramManager.token) { [weak self] (result) in
+                guard let self = self else { return }
+                self.block.stopAnimating()
+                
+                switch result {
+                case .success(let user):
+                    self.user = user
+                    self.navigationItem.title = user.username
+                    self.createPostsArray()
+                    self.addLogoutButton()
+                    
+                case .failure(let error):
+                    self.alert.createAlert(error: error)
+                }
+            }
             
             //        Для создания профилей других пользователей
-//        } else {
-//            DispatchQueue.main.async {
-//                self.navigationItem.title = self.user?.username
-//            }
+        } else {
+            navigationItem.title = self.user?.username
             createPostsArray()
-//        }
+            self.addLogoutButton()
+        }
+    }
+    
+//    Проверка отображать ли кнопку Log out
+    private func addLogoutButton() {
+        if user?.username == "ivan1975" {
+            navigationItem.setRightBarButton(UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logoutPressed)), animated: true)
+        }
     }
     
     //    Логика по созданию массива постов
     private func createPostsArray() {
         
         block.startAnimating()
-//        guard self.user != nil else { return }
-//        self.postClass.findPosts(by: self.user!.id, queue: .global()) { (postsArray) in
-//            guard postsArray != nil else { return }
-//            self.postsOfCurrentUser = postsArray
-//            DispatchQueue.main.async {
-//                self.collectionView.reloadData()
-//                self.block.stopAnimating()
-//            }
-//        }
+        guard self.user != nil else { return }
+        apiManger.userPosts(token: APIInstagramManager.token, id: user!.id) { [weak self] (result) in
+            guard let self = self else { return }
+            self.block.stopAnimating()
+            
+            switch result {
+            case .success(let post):
+                self.postsOfCurrentUser = post
+                self.collectionView.reloadData()
+                
+            case .failure(let error):
+                self.alert.createAlert(error: error)
+            }
+        }
     }
     
-    //    Переход на страницу подписчиков
+//    Выход из профиля
+    @objc private func logoutPressed() {
+        apiManger.signout(token: APIInstagramManager.token) { [weak self] _ in
+            guard let self = self else { return }
+
+            APIInstagramManager.token = ""
+                self.appDelegate.window?.rootViewController = AutorizationViewController()
+        }
+    }
+    
+    //    Target для перехода на страницу подписчиков
     private func presentFollowers(button: UIButton) {
         button.addTarget(self, action: #selector(presentVCFollowers), for: .touchUpInside)
     }
@@ -90,23 +122,23 @@ class ProfileViewController: UIViewController {
     @objc private func presentVCFollowers() {
         
         block.startAnimating()
-//        guard let user = user else { return }
-//        userClass.usersFollowingUser(with: user.id , queue: .global()) { (usersArray) in
-//            guard usersArray != nil else { self.alert.createAlert {_ in
-//                self.usersFollowingUser = []
-//                }
-//                return }
-//            self.usersFollowingUser = usersArray
-//            if let array = self.usersFollowingUser {
-//                DispatchQueue.main.async {
-//                    self.block.stopAnimating()
-//                    self.navigationController?.pushViewController(FollowersTableViewController(usersArray: array, titleName: "Followers", user: user), animated: true)
-//                }
-//            }
-//        }
+        guard let user = user else { return }
+        apiManger.usersFollowing(token: APIInstagramManager.token, id: user.id) { [weak self] (result) in
+            guard let self = self else { return }
+            self.block.stopAnimating()
+            
+            switch result {
+            case .success(let users):
+                let vc = FollowersTableViewController(usersArray: users, titleName: "Followers")
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            case .failure(let error):
+                self.alert.createAlert(error: error)
+            }
+        }
     }
     
-    //    Переход на страницу подписок
+    //    Target для перехода на страницу подписок
     private func presentFollowing(button: UIButton) {
         button.addTarget(self, action: #selector(presentVCFollowing), for: .touchUpInside)
     }
@@ -114,20 +146,20 @@ class ProfileViewController: UIViewController {
     //    Переход на страницу подписок
     @objc private func presentVCFollowing() {
         block.startAnimating()
-//        guard let user = user else { return }
-//        userClass.usersFollowedByUser(with: user.id, queue: DispatchQueue.global()) { (usersArray) in
-//            guard usersArray != nil else { self.alert.createAlert {_ in
-//                self.usersFollowedByUser = []
-//                }
-//                return }
-//            self.usersFollowedByUser = usersArray
-//            if let array = self.usersFollowedByUser {
-//                DispatchQueue.main.async {
-//                    self.block.stopAnimating()
-//                    self.navigationController?.pushViewController(FollowersTableViewController(usersArray: array, titleName: "Following", user: user), animated: true)
-//                }
-//            }
-//        }
+        guard let user = user else { return }
+        apiManger.usersFollowers(token: APIInstagramManager.token, id: user.id) { [weak self] (result) in
+            guard let self = self else { return }
+            self.block.stopAnimating()
+            
+            switch result {
+            case .success(let users):
+                let vc = FollowersTableViewController(usersArray: users, titleName: "Followers")
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            case .failure(let error):
+                self.alert.createAlert(error: error)
+            }
+        }
     }
 }
 
@@ -139,18 +171,17 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        guard let postArray = postsOfCurrentUser else { return 0 }
-//        return postArray.count
-        1
+        guard let postArray = postsOfCurrentUser else { return 0 }
+        return postArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as? ProfileCell else { return UICollectionViewCell()}
-//        guard let posts = postsOfCurrentUser else { return UICollectionViewCell() }
-//
-//        let post = posts[indexPath.item]
-//        cell.setupCell(post: post)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as! ProfileCell 
+        guard let posts = postsOfCurrentUser else { return UICollectionViewCell() }
+        
+        let post = posts[indexPath.item]
+        cell.setupCell(post: post)
         return cell
     }
     
@@ -167,10 +198,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifierHeader, for: indexPath) as? ProfileHeaderCell else { return UICollectionReusableView() }
-//        guard let user = user else { return header }
-//        header.user = user
-//        header.createCell()
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifierHeader, for: indexPath) as! ProfileHeaderCell
+        guard let user = user else { return header }
+        header.user = user
+        header.createCell()
         header.delegate = self
         presentFollowers(button: header.followersButton)
         presentFollowing(button: header.followingButton)
@@ -182,32 +213,36 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 //    MARK:- FollowUnfollowDelegate
 extension ProfileViewController: FollowUnfollowDelegate {
     
-    //    Подписаться/подписаться на/от пользователя
-//    func tapFollowUnfollowButton(user: User) {
-//        
-//        if user.currentUserFollowsThisUser {
-//            userClass.unfollow(user.id, queue: .global()) { (_) in
-//                self.userClass.user(with: user.id, queue: .global()) { (user) in
-//                    guard let user = user else { self.alert.createAlert {_ in}
-//                        return }
-//                    self.user = user
-//                    DispatchQueue.main.async {
-//                        self.collectionView.reloadData()
-//                    }
-//                }
-//            }
-//            
-//        } else {
-//            userClass.follow(user.id, queue: .global()) { (_) in
-//                self.userClass.user(with: user.id, queue: .global()) { (user) in
-//                    guard let user = user else { self.alert.createAlert {_ in}
-//                        return }
-//                    self.user = user
-//                    DispatchQueue.main.async {
-//                        self.collectionView.reloadData()
-//                    }
-//                }
-//            }
-//        }
-//    }
+    //    Подписаться/отписаться на/от пользователя
+    func tapFollowUnfollowButton(user: User) {
+        
+        if user.currentUserFollowsThisUser {
+            apiManger.unfollow(token: APIInstagramManager.token, id: user.id) { [weak self] (result) in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let user):
+                    self.user = user
+                    self.collectionView.reloadData()
+                    
+                case .failure(let error):
+                    self.alert.createAlert(error: error)
+                }
+            }
+            
+        } else {
+            apiManger.follow(token: APIInstagramManager.token, id: user.id) { [weak self] (result) in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let user):
+                    self.user = user
+                    self.collectionView.reloadData()
+                    
+                case .failure(let error):
+                    self.alert.createAlert(error: error)
+                }
+            }
+        }
+    }
 }

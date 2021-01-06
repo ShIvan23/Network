@@ -7,40 +7,35 @@
 //
 
 import UIKit
+import Kingfisher
 
 let identifierHeader = "ProfileHeaderCell"
 
 protocol FollowUnfollowDelegate: AnyObject {
-//    func tapFollowUnfollowButton(user: User)
+    func tapFollowUnfollowButton(user: User)
 }
 
 class ProfileHeaderCell: UICollectionViewCell {
     
-    //    MARK:- Properties
+    //    MARK: - Public Properties
     weak var delegate: FollowUnfollowDelegate?
     
-//    var user: User? {
-//        didSet {
-//            if user?.username == "ivan1975" {
-//                followUnfollowButton.isHidden = true
-//            } else {
-//                if user?.currentUserFollowsThisUser == true {
-//                    followUnfollowButton.setTitle("Unfollow", for: .normal)
-//                    followUnfollowButton.isHidden = false
-//                } else {
-//                    followUnfollowButton.setTitle("Follow", for: .normal)
-//                    followUnfollowButton.isHidden = false
-//                }
-//            }
-//        }
-//    }
-    
-    private let nameLabel: UILabel = {
-        let label = UILabel(frame: .init(x: 0, y: 0, width: 100, height: 10))
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 14)
-        return label
-    }()
+    var currentUser: User?
+    var user: User? {
+        didSet {
+            if user?.username == "ivan1975" {
+                followUnfollowButton.isHidden = true
+            } else {
+                followUnfollowButton.isHidden = false
+                
+                if user?.currentUserFollowsThisUser == true {
+                    followUnfollowButton.setTitle("Unfollow", for: .normal)
+                } else {
+                    followUnfollowButton.setTitle("Follow", for: .normal)
+                }
+            }
+        }
+    }
     
     let followersButton: UIButton = {
         let button = UIButton()
@@ -57,17 +52,9 @@ class ProfileHeaderCell: UICollectionViewCell {
         button.setTitleColor(.black, for: .normal)
         return button
     }()
-    
-    private let avatarImageView: UIImageView = {
-        let image = UIImageView()
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.clipsToBounds = true
-        image.contentMode = .scaleAspectFit
-        image.layer.cornerRadius = 35
-        return image
-    }()
-    
-    let followUnfollowButton: UIButton = {
+   
+    //    MARK: - Private Properties
+   private let followUnfollowButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = .systemFont(ofSize: 15)
@@ -79,6 +66,23 @@ class ProfileHeaderCell: UICollectionViewCell {
         return button
     }()
     
+    private let nameLabel: UILabel = {
+        let label = UILabel(frame: .init(x: 0, y: 0, width: 100, height: 10))
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 14)
+        return label
+    }()
+    
+    private let avatarImageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.clipsToBounds = true
+        image.contentMode = .scaleAspectFit
+        image.layer.cornerRadius = 35
+        return image
+    }()
+    
+    //    MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -89,19 +93,21 @@ class ProfileHeaderCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //    MARK:- Methods
-//    func createCell() {
-//        guard let user = user else { return }
-//        nameLabel.text = user.fullName
-//        followersButton.setTitle("Followers: \(user.followedByCount)", for: .normal)
-//        followingButton.setTitle("Following: \(user.followsCount)", for: .normal)
-//        avatarImageView.image = user.avatar
-//        followUnfollowButton.addTarget(self, action: #selector(tapFollowUnfollow), for: .touchUpInside)
-//    }
+    //    MARK: - Public Methods
+    func createCell() {
+        guard let user = user else { return }
+        nameLabel.text = user.fullName
+        followersButton.setTitle("Followers: \(user.followsCount)", for: .normal)
+        followingButton.setTitle("Following: \(user.followedByCount)", for: .normal)
+        let url = URL(string: user.avatar)
+        avatarImageView.kf.setImage(with: url)
+        followUnfollowButton.addTarget(self, action: #selector(tapFollowUnfollow), for: .touchUpInside)
+    }
     
+    //    MARK: - Private Methods
     @objc private func tapFollowUnfollow() {
-//        guard let user = user else { return }
-//        delegate?.tapFollowUnfollowButton(user: user)
+        guard let user = user else { return }
+        delegate?.tapFollowUnfollowButton(user: user)
     }
     
     private func configureUI() {

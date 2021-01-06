@@ -7,186 +7,185 @@
 //
 
 import UIKit
+import Kingfisher
 
-//class FeedViewController: UIViewController, UICollectionViewDataSource {
-    class FeedViewController: UIViewController {
+class FeedViewController: UIViewController {
     
-    //    MARK:- Properties
+    //    MARK:- Private Properties
     @IBOutlet weak var collectionView: UICollectionView!
     
-//    private let userClass = UserClass()
-//    private let postClass = PostClass()
     private lazy var block = BlockViewController(view: (tabBarController?.view)!)
     private lazy var alert = AlertViewController(view: self)
-//    private var postsArray: [Post]?
-//    private var currentUser: User?
-//    private var usersLikedPost: [User]?
-//    private var user: User?
+    private var postsArray: [Post]?
+    private var apiManger = APIInstagramManager()
     
+    //        MARK:- Life Cycles Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        createCurrentUser()
-        createPostsArrayWithBlock()
         title = "Feed"
         collectionView.register(UINib(nibName: "FeedCell", bundle: nil), forCellWithReuseIdentifier: "FeedCell")
-//        collectionView.dataSource = self
-//        collectionView.delegate = FeedCell() as? UICollectionViewDelegate
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        createPostsArrayWithBlock(token: APIInstagramManager.token)
     }
-    
-    //    MARK:- Methods
     
     //    Обновляет UI и скроллит в начало ленты при публикации новой фотографии
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        createPostsArrayWithBlock()
-        collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: true)
+            createPostsArrayWithBlock(token: APIInstagramManager.token)
+            collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: true)
     }
     
-    //    Создает текущего пользователя
-    private func createCurrentUser() {
-//        userClass.currentUser(queue: DispatchQueue.global()) { (user) in
-//            guard user != nil else { self.alert.createAlert {_ in}
-//                return }
-//            DispatchQueue.main.async {
-//                self.currentUser = user
-//            }
-//        }
-    }
-    
+    //    MARK: - Private Methods
     //    Создает массив постов без блокировки UI для лайков
-    func createPostsArrayWithoutBlock() {
-//        postClass.feed(queue: DispatchQueue.global()) { (postsArray) in
-//            guard postsArray != nil else { self.alert.createAlert { _ in
-//                self.postsArray = [] }
-//                return }
-//            DispatchQueue.main.async {
-//                self.postsArray = postsArray
-//                self.collectionView.reloadData()
-//            }
-//        }
+    func createPostsArrayWithoutBlock(token: String) {
+        apiManger.feed(token: token) { [weak self] (result) in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let posts):
+                self.postsArray = posts
+                self.collectionView.reloadData()
+                
+            case .failure(let error):
+                self.alert.createAlert(error: error)
+            }
+        }
     }
     
     //    Создает массив постов с блокировкой UI
-    private func createPostsArrayWithBlock() {
+    private func createPostsArrayWithBlock(token: String) {
         block.startAnimating()
-//        postClass.feed(queue: DispatchQueue.global()) { (postsArray) in
-//            guard postsArray != nil else { self.alert.createAlert { _ in
-//                self.postsArray = [] }
-//                return }
-//            DispatchQueue.main.async {
-//                self.postsArray = postsArray
-//                self.block.stopAnimating()
-//                self.collectionView.reloadData()
-//            }
-//        }
+        apiManger.feed(token: token) { [weak self] (result) in
+            guard let self = self else { return }
+            self.block.stopAnimating()
+            
+            switch result {
+            case .success(let posts):
+                self.postsArray = posts
+                self.collectionView.reloadData()
+                
+            case .failure(let error):
+                self.alert.createAlert(error: error)
+            }
+        }
     }
     
     //    Cоздание VC и переход в профиль пользователя
-//    private func goToUserProfile(user: User) {
-//        let storyboard = UIStoryboard(name: "Storyboard", bundle: nil)
-//        guard let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController else { alert.createAlert {_ in}
-//            return }
-//        profileVC.user = user
-//        show(profileVC, sender: nil)
-//    }
-//}
+    private func goToUserProfile(user: User) {
+        let storyboard = UIStoryboard(name: "Storyboard", bundle: nil)
+        guard let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileViewController") as? ProfileViewController else { alert.createAlert(error: nil)
+            return }
+        profileVC.user = user
+        show(profileVC, sender: nil)
+    }
+}
 
-//    MARK:- DataSource and Delegate
-//extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+//    MARK:- Data Source and Delegate
+extension FeedViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        guard let array = postsArray else { return 0 }
-//        return array.count
-//        1
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as? FeedCell else { return UICollectionViewCell()}
-//        guard let array = postsArray else { return UICollectionViewCell() }
-//        let post = array[indexPath.item]
-//        cell.post = post
-//        cell.setupCell()
-//        cell.delegate = self
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let array = postsArray else { return 0 }
+        return array.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 300)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        20
-//    }
-//}
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCell", for: indexPath) as! FeedCell
+        guard let array = postsArray else { return UICollectionViewCell() }
+        let post = array[indexPath.item]
+        cell.post = post
+        cell.setupCell()
+        cell.delegate = self
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 300)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        20
+    }
+}
 
-//    MARK:- LikeImageButtonDelegate
-//extension FeedViewController: LikeImageButtonDelegate {
+//    MARK: - Like Image Button Delegate
+extension FeedViewController: LikeImageButtonDelegate {
     
     //    Создает массив пользователей, которые лайкнули публикацию и отображает их
-//    func tapLikesButton(post: Post) {
-//
-//        block.startAnimating()
-//        self.postClass.usersLikedPost(with: post.id, queue: DispatchQueue.global()) { (usersArray) in
-//            guard usersArray != nil else { self.alert.createAlert {_ in
-//                self.usersLikedPost = []
-//                }
-//                return }
-//            self.usersLikedPost = usersArray
-//            guard let array = self.usersLikedPost else { self.alert.createAlert {_ in}
-//                return }
-//
-//            DispatchQueue.main.async {
-//                self.block.stopAnimating()
-//                self.navigationController?.pushViewController(FollowersTableViewController(usersArray: array, titleName: "Likes", user: self.user!), animated: true)
-//            }
-//        }
-//    }
+    func tapLikesButton(post: Post) {
+        
+        block.startAnimating()
+        apiManger.usersLikedPost(token: APIInstagramManager.token, id: post.id, completion: { [weak self] (result) in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let users):
+                self.block.stopAnimating()
+                let vc = FollowersTableViewController(usersArray: users, titleName: "Likes")
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            case .failure(let error):
+                self.alert.createAlert(error: error)
+            }
+        })
+    }
     
     //    Переход на страницу пользователя при нажатии на фото или имя
-//    func tapAvatarAndUserName(post: Post) {
-//
-//            block.startAnimating()
-//            self.userClass.user(with: post.author, queue: .global()) { (user) in
-//                guard user != nil else { self.alert.createAlert {_ in}
-//                    return }
-//                self.user = user
-//                DispatchQueue.main.async {
-//                    self.block.stopAnimating()
-//                    if let user = self.user {
-//                        self.goToUserProfile(user: user)
-//                    }
-//                }
-//            }
-//    }
+    func tapAvatarAndUserName(post: Post) {
+        
+        block.startAnimating()
+        apiManger.userID(token: APIInstagramManager.token, id: post.author) { [weak self] (result) in
+            guard let self = self else { return }
+            self.block.stopAnimating()
+            
+            switch result {
+            case .success(let user):
+                self.goToUserProfile(user: user)
+                
+            case .failure(let error):
+                self.alert.createAlert(error: error)
+            }
+        }
+    }
     
     //    Ставит лайк при двойном нажатии на фото
-//    func tapBigLike(post: Post) {
-//        postClass.likePost(with: post.id, queue: DispatchQueue.global()) { (_) in
-//            DispatchQueue.main.async {
-//                self.createPostsArrayWithoutBlock()
-//            }
-//        }
-//    }
+    func tapBigLike(post: Post) {
+        apiManger.likePost(token: APIInstagramManager.token, id: post.id) { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.createPostsArrayWithoutBlock(token: APIInstagramManager.token)
+        }
+    }
     
     //    Ставит/убирает лайк при нажатии на сердце
-//    func tapLike(post: Post) {
-//
-//        if post.currentUserLikesThisPost {
-//            postClass.unlikePost(with: post.id, queue: DispatchQueue.global()) { (_) in
-//                DispatchQueue.main.async {
-//                    self.createPostsArrayWithoutBlock()
-//                }
-//            }
-//        } else {
-//            postClass.likePost(with: post.id, queue: DispatchQueue.global()) { (_) in
-//                DispatchQueue.main.async {
-//                    self.createPostsArrayWithoutBlock()
-//                }
-//            }
-//        }
-//    }
+    func tapLike(post: Post) {
+        
+        if post.currentUserLikesThisPost {
+            apiManger.unlikePost(token: APIInstagramManager.token, id: post.id) { [weak self] _ in
+                guard let self = self else { return }
+                
+                self.createPostsArrayWithoutBlock(token: APIInstagramManager.token)
+            }
+        } else {
+            apiManger.likePost(token: APIInstagramManager.token, id: post.id) { [weak self] _ in
+                guard let self = self else { return }
+                
+                self.createPostsArrayWithoutBlock(token: APIInstagramManager.token)
+            }
+        }
+    }
+}
+
+// MARK: - Add New Post Delegate
+extension FeedViewController: AddNewPostDelegate {
+    
+    //    Обновляет UI и скроллит в начало ленты при публикации новой фотографии
+    func updateFeedUI() {
+        createPostsArrayWithoutBlock(token: APIInstagramManager.token)
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: true)
+    }
 }

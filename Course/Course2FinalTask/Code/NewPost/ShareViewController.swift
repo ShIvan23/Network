@@ -8,14 +8,22 @@
 
 import UIKit
 
+protocol AddNewPostDelegate: AnyObject {
+    func updateFeedUI()
+}
+
 class ShareViewController: UIViewController {
     
-    //    MARK:- Properties
-    let feedVC = FeedViewController()
+    //    MARK: - Lazy Properties
+    private lazy var block = BlockViewController(view: (tabBarController?.view)!)
+    private lazy var alert = AlertViewController(view: self)
     
-//    private let postClass = PostClass()
-    lazy var block = BlockViewController(view: (tabBarController?.view)!)
+    //    MARK: - Weak Properties
+    weak var delegate: AddNewPostDelegate?
+    
+    //    MARK: - Private Properties
     private let inputPhoto: UIImage
+    private var apiManger = APIInstagramManager()
     
     private let photoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -42,6 +50,7 @@ class ShareViewController: UIViewController {
         return label
     }()
     
+    //    MARK: - Initializers
     init(image: UIImage) {
         self.inputPhoto = image
         super.init(nibName: nil, bundle: nil)
@@ -51,13 +60,13 @@ class ShareViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //    MARK: - Life Cycles Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
     }
     
-    //    MARK:- Methods
+    //    MARK: - Private Methods
     private func configureUI() {
         view.backgroundColor = .white
         view.addSubview(photoImageView)
@@ -85,14 +94,22 @@ class ShareViewController: UIViewController {
     
     @objc private func tapShareButton() {
         block.startAnimating()
-//        postClass.newPost(with: inputPhoto, description: textField.text ?? "", queue: .global()) { (_) in
-//            DispatchQueue.main.async {
-//                self.block.stopAnimating()
-//                
-//                self.tabBarController?.selectedIndex = 0
-//                self.navigationController?.popToRootViewController(animated: false)
-//                
-//            }
-//        }
+        apiManger.newPost(token: APIInstagramManager.token, image: inputPhoto, description: textField.text ?? "") { [weak self] (result) in
+            guard let self = self else { return }
+            self.block.stopAnimating()
+            
+            switch result {
+            case .success(_):
+                self.tabBarController?.selectedIndex = 0
+                self.navigationController?.popToRootViewController(animated: true)
+                let vc = FeedViewController()
+                self.delegate = vc
+                self.delegate?.updateFeedUI()
+                print("All compleate")
+                
+            case .failure(let error):
+                self.alert.createAlert(error: error)
+            }
+        }
     }
 }

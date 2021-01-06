@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 let identifier = "FollowersCell"
 
 class FollowersCell: UITableViewCell {
     
-    //    MARK:- Properties
+    //    MARK:- Private Properties
     private var avatarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,6 +28,7 @@ class FollowersCell: UITableViewCell {
         return label
     }()
     
+    //    MARK: - Initilizers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -37,12 +39,14 @@ class FollowersCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //    MARK:- Methods
-//    func createCell(user: User) {
-//        avatarImageView.image = user.avatar
-//        nameLabel.text = user.username
-//    }
+    //    MARK:- Public Methods
+    func createCell(user: User) {
+        let url = URL(string: user.avatar)
+        avatarImageView.kf.setImage(with: url)
+        nameLabel.text = user.username
+    }
     
+    //    MARK:- Private Methods
     private func configureUI() {
         addSubview(avatarImageView)
         addSubview(nameLabel)

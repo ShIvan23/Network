@@ -7,14 +7,16 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProfileCell: UICollectionViewCell {
     
+    //    MARK: - IB Outlets
     @IBOutlet weak var postsImage: UIImageView!
     
-    //    MARK:- Methods
-//    func setupCell(post: Post) {
-//        postsImage.image = post.image
-//    }
-    
+    //    MARK: - Public Methods
+    func setupCell(post: Post) {
+        let url = URL(string: post.image)!
+        postsImage.kf.setImage(with: url)
+    }
 }

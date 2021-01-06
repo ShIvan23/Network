@@ -11,15 +11,18 @@ import UIKit
 
 class FilterOperation: Operation {
     
+    //    MARK: - Private Methods
     private let inputImage: UIImage
     private let inputFilter: String
     private(set) var outputImage: UIImage?
     
+    //    MARK: - Initializers
     init(image: UIImage, filter: String) {
         self.inputImage = image
         self.inputFilter = filter
     }
     
+    //    MARK: - Override Methods
     override func main() {
         
         let context = CIContext()
@@ -30,5 +33,4 @@ class FilterOperation: Operation {
         guard let cgImage = context.createCGImage(filteredImage, from: filteredImage.extent) else { return }
         outputImage = UIImage(cgImage: cgImage)
     }
-    
 }

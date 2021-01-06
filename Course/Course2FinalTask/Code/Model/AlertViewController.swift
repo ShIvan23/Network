@@ -10,8 +10,10 @@ import UIKit
 
 class AlertViewController: UIViewController {
     
-    let inputViewControllers: UIViewController
+    //    MARK: - Private Properties
+    private let inputViewControllers: UIViewController
     
+    //    MARK: - Initializers
     init(view: UIViewController) {
         self.inputViewControllers = view
         super.init(nibName: nil, bundle: nil)
@@ -21,10 +23,18 @@ class AlertViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func createAlert(handler: @escaping (UIAlertAction) -> Void) {
+    //    MARK: - Puplic Properties
+    func createAlert(error: Error?) {
         
-        let alert = UIAlertController(title: "Unknown error!", message: "Please, try again later.", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Ok", style: .cancel, handler: handler)
+        var title = "Unknown error!"
+        let massege = "Please, try again later."
+        
+        if let error = error as? ErrorManager {
+            title = error.rawValue
+        }
+        
+        let alert = UIAlertController(title: title, message: massege, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
         alert.addAction(action)
         
         inputViewControllers.present(alert, animated: true, completion: nil)
