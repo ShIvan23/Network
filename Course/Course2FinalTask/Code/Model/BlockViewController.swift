@@ -13,17 +13,6 @@ class BlockViewController: UIViewController {
     //    MARK:- Properties
     private let sendView: UIView
     
-    init(view: UIView) {
-        self.sendView = view
-        
-        super.init(nibName: nil, bundle: nil)
-        self.configureUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private let blockView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -37,9 +26,21 @@ class BlockViewController: UIViewController {
         let indicator = UIActivityIndicatorView(style: .white)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
-    }()    
+    }()
     
-    //    MARK:- Methods
+    //    MARK: - Initializers
+    init(view: UIView) {
+        self.sendView = view
+        
+        super.init(nibName: nil, bundle: nil)
+        self.configureUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //    MARK: - Private Methods
     private func configureUI() {
         
         sendView.addSubview(blockView)
@@ -55,6 +56,7 @@ class BlockViewController: UIViewController {
         NSLayoutConstraint.activate(constraints)
     }
     
+    //    MARK: - Public Methods
     func startAnimating() {
         blockView.isHidden = false
         indicator.startAnimating()

@@ -10,7 +10,7 @@ import UIKit
 
 class FilterCell: UICollectionViewCell {
     
-    //    MARK:- Properties
+    //    MARK: - Private Properties
     private let queue = OperationQueue()
     
     private let filterName: UILabel = {
@@ -28,6 +28,7 @@ class FilterCell: UICollectionViewCell {
         return imageView
     }()
     
+    //    MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -38,7 +39,7 @@ class FilterCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //    MARK:- Methods
+    //    MARK: - Public Methods
     func createCell(name: String, image: UIImage) {
         filterName.text = name
         
@@ -52,6 +53,7 @@ class FilterCell: UICollectionViewCell {
         queue.addOperation(operation)
     }
     
+    //    MARK: - Private Methods
     private func createUI() {
         addSubview(filterName)
         addSubview(filteredImage)

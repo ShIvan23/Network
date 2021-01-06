@@ -12,7 +12,7 @@ let identifierNewPost = "NewPostCell"
 
 class NewPostCell: UICollectionViewCell {
     
-    //    MARK:- Properties
+    //    MARK:- Private Properties
     private let photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,6 +20,7 @@ class NewPostCell: UICollectionViewCell {
         return imageView
     }()
     
+    //    MARK: - Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -30,11 +31,12 @@ class NewPostCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //    MARK:- Methods
+    //    MARK:- Public Methods
     func createCell(image: UIImage) {
         photoImageView.image = image
     }
     
+    //    MARK:- Private Methods
     private func configureUI() {
         addSubview(photoImageView)
         

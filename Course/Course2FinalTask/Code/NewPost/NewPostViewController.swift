@@ -10,13 +10,15 @@ import UIKit
 
 class NewPostViewController: UIViewController {
     
-    //    MARK:- Properties
-    private lazy var alert = AlertViewController(view: self)
+    //    MARK: - IB Outlets
     @IBOutlet weak var collectionView: UICollectionView!
     
-//    private let arrayOfNewBigPhotos = DataProviders.shared.photoProvider.photos()
-//    private let arrayOfNewSmallPhotos = DataProviders.shared.photoProvider.thumbnailPhotos()
+    //    MARK: - Private Properties
+    private lazy var alert = AlertViewController(view: self)
     
+    private let arrayOfNewBigPhotos = ["new1", "new2", "new3", "new4", "new5", "new6", "new7", "new8"]
+    
+    //    MARK: - Life Cycles Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,17 +38,17 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        arrayOfNewBigPhotos.count
-        1
+        arrayOfNewBigPhotos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifierNewPost, for: indexPath) as? NewPostCell else { alert.createAlert {_ in }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifierNewPost, for: indexPath) as? NewPostCell else { alert.createAlert(error: nil)
             return UICollectionViewCell() }
         
-//        let image = arrayOfNewBigPhotos[indexPath.item]
-//        cell.createCell(image: image)
+        let imageItem = UIImage(named: arrayOfNewBigPhotos[indexPath.item])
+        guard let image = imageItem else { return UICollectionViewCell() }
+        cell.createCell(image: image)
         
         return cell
     }
@@ -60,6 +62,7 @@ extension NewPostViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        navigationController?.pushViewController(AddFilterViewController(bigImage: arrayOfNewBigPhotos[indexPath.item], smallImage: arrayOfNewSmallPhotos[indexPath.item]), animated: true)
+        let vc = AddFilterViewController(bigImage: UIImage(named: arrayOfNewBigPhotos[indexPath.item])!)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
